@@ -1,0 +1,27 @@
+<% include partials/header %>
+
+<div class="header fullscreen">
+    <div class="container">
+
+        <h1 class="logo">TODO APP</h1>
+
+
+        <form class="form" action="/login" method="post">
+            <div class="section" tabindex="0">
+                <i class="ion-md-person" style="color: #f2f2f2;"></i><input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="section" tabindex="1">
+                <i class="ion-md-key" style="color: #f2f2f2;"></i><input type="password" name="password" placeholder="Password" required>
+            </div>
+            <br><br>
+            <div class="float-right">
+                <button type="submit" class="btn"><i class="ion-md-log-in"></i> Login</button>
+                <a href="/register" class="btn"><i class="ion-md-person-add"></i> New Account</a>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+<% include partials/footer %>

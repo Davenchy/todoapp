@@ -1,0 +1,30 @@
+<% include partials/header %>
+
+<div class="header fullscreen">
+    <div class="container">
+
+        <h1 class="logo">New Account</h1>
+
+
+        <form class="form" action="/register" method="post">
+            <div class="section" tabindex="0">
+                <i class="ion-md-person" style="color: #f2f2f2;"></i><input type="text" name="name" placeholder="Name" required>
+            </div>
+            <div class="section" tabindex="0">
+                <i class="ion-md-person" style="color: #f2f2f2;"></i><input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="section" tabindex="1">
+                <i class="ion-md-key" style="color: #f2f2f2;"></i><input type="password" name="password" placeholder="Password" required>
+            </div>
+            <br><br>
+            <div class="float-right">
+                <a href="/login" class="btn"><i class="ion-ios-arrow-back"></i> Back</a>
+                <button type="submit" class="btn"><i class="ion-md-person-add"></i> Create New Account</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+<% include partials/footer %>

@@ -25,10 +25,24 @@ body {
     margin-right: auto;
 }
 .float-right { float: right; }
+.center { text-align: center; }
 .clearfix { overflow: hidden; }
 .clearfix:after { clear: both; display: table; content: ''; }
 
 h1 { font-size: 150%; }
+
+a.light {
+    color: #f2f2f2;
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 90%;
+    margin: 15px;
+    opacity: 0.7;
+    transition: opacity .2s;
+    font-family: "Lato", sans-serif;
+}
+a.light:hover, a.light:active { opacity: 1; }
 
 .btn {
     color: #f2f2f2;
@@ -39,6 +53,9 @@ h1 { font-size: 150%; }
     margin: 15px;
     opacity: 0.7;
     transition: opacity .2s;
+    border: none;
+    font-family: "Lato", sans-serif;
+    cursor: pointer;
 }
 .btn:hover, .btn:active { opacity: 1; }
 
@@ -50,6 +67,11 @@ h1 { font-size: 150%; }
     background-color: #34495e;
     padding-top: 50px;
     padding-bottom: 50px;
+    overflow: hidden;
+}
+.header.fullscreen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
 }
 
 /* header username */
@@ -79,6 +101,39 @@ h1 { font-size: 150%; }
     border-bottom-color: #222;
 }
 
+.logo {
+    text-align: center;
+    font-size: 200%;
+    margin-top: 20px; margin-bottom: 50px;
+    color: #f2f2f2;
+}
+
+/* ====================================================== */
+/* login / register form */
+/* ====================================================== */
+.form .section {
+    position: relative;
+}
+.form .section input {
+    background-color: transparent;
+    color: #f2f2f2;
+    border: none;
+    font-size: 100%;
+    margin-top: 40px;
+    margin-left: 10px;
+    width: 100%;
+    display: inline-block;
+    padding: 5px 10px 5px 50px;
+    border-bottom: 2px solid #777;
+    transition: border-bottom-color .2s;
+    outline: none;
+    user-select: none;
+}
+.form .section input:focus { border-bottom-color: #222; }
+.form .section i { position: absolute; top: 45px; left: 25px; }
+
+
+/* .form .section { border-bottom: 2px solid #777; transition: border-bottom-color .2s; } */
 /* ====================================================== */
 /* todos */
 /* ====================================================== */
@@ -88,15 +143,15 @@ h1 { font-size: 150%; }
     background-color: #1abc9c;
     border-top-width: 0px;
     overflow: hidden;
-    padding: 10px 20px;
+    padding: 5px 20px;
 }
 .todo * { box-sizing: border-box; }
 .todo:nth-child(even) { background-color: #bdc3c7; }
 
 /* todo input */
 .todo input[type=text] {
-    width: calc(100% - 70px);
-    padding: 10px 10px 5px 10px;
+    width: calc(100% - 100px);
+    padding: 15px 10px;
     font-family: "Lato", sans-serif;
     font-size: 90%;
     background-color: transparent;
@@ -113,7 +168,7 @@ h1 { font-size: 150%; }
     float: right;
     background-color: #e74c3c;
     padding: 10px;
-    display: inline-block;
+    margin: 5px;
     width: 40px;
     text-align: center;
     color: #fbe5e2;
