@@ -3,10 +3,10 @@
 <div class="header">
     <div class="container">
         <div class="group float-right">
-            <a href="#" class="btn">Settings</a>
-            <a href="#" class="btn">Logout</a>
+            <a href="#" class="btn"><i class="ion-md-settings"></i> Settings</a>
+            <a href="#" class="btn"><i class="ion-md-log-out"></i> Logout</a>
         </div>
-        <h1 class="username clearfix">User Name</h1>
+        <h1 class="username clearfix"><i class="ion-md-contact"></i> User Name</h1>
         <input type="text" placeholder="write something todo here..." onkeydown="settodo();">
     </div>
 </div>
@@ -14,15 +14,21 @@
 <div class="todos-container">
 
     <div class="todo complete">
-        <input type="checkbox" checked>
+        <label class="checker">
+            <input type="checkbox" checked>
+            <span class="checkmark"></span>
+        </label>
         <input type="text" placeholder="write todo..." value="Play">
-        <a class="delete">Delete</a>
+        <a class="delete"><i class="ion-md-trash"></i></a>
     </div>
 
     <div class="todo">
-        <input type="checkbox">
+        <label class="checker">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+        </label>
         <input type="text" placeholder="write todo..." value="Games">
-        <a class="delete">Delete</a>
+        <a class="delete"><i class="ion-md-trash"></i></a>
     </div>
 
 </div>

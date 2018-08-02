@@ -31,12 +31,12 @@ body {
 h1 { font-size: 150%; }
 
 .btn {
-    color: #f9fefd;
+    color: #f2f2f2;
     background-color: transparent;
     font-weight: bold;
     text-decoration: none;
     font-size: 90%;
-    margin: 10px;
+    margin: 15px;
     opacity: 0.7;
     transition: opacity .2s;
 }
@@ -45,69 +45,127 @@ h1 { font-size: 150%; }
 /* ====================================================== */
 /* header */
 /* ====================================================== */
-
+/* header container */
 .header {
-    background-color: #1abc9c;
+    background-color: #34495e;
     padding-top: 50px;
     padding-bottom: 50px;
 }
-.header .username { color: #0c5547; text-align: center; display: block; width: 100%; font-size: 150%; font-weight: bold; }
+
+/* header username */
+.header .username {
+    color: #f2f2f2;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+/* header new todo input */
 .header input[type=text] {
     background-color: transparent;
-    color: #f9fefd;
+    color: #f2f2f2;
     border: none;
     font-size: 100%;
     margin-top: 40px;
     width: 100%;
     display: block;
-    border-bottom: 2px solid #16a085;
+    border-bottom: 2px solid #777;
     padding: 5px 10px 5px 10px;
     transition: border-bottom-color .2s;
 }
 .header input[type=text]:focus {
-    border-bottom-color: #0c5547;
+    border-bottom-color: #222;
 }
 
 /* ====================================================== */
 /* todos */
 /* ====================================================== */
 
+/* todo container */
 .todo {
-    background-color: #16a085;
-    border: 2px solid #107360;
-    border-left: 5px solid #107360;
+    background-color: #1abc9c;
     border-top-width: 0px;
     overflow: hidden;
+    padding: 10px 20px;
 }
-.todo:nth-child(1) { border-top-width: 2px; }
 .todo * { box-sizing: border-box; }
+.todo:nth-child(even) { background-color: #bdc3c7; }
+
+/* todo input */
 .todo input[type=text] {
-    width: 80%;
+    width: calc(100% - 70px);
     padding: 10px 10px 5px 10px;
     font-family: "Lato", sans-serif;
     font-size: 90%;
     background-color: transparent;
     border: none;
-    color: #f9fefd;
+    color: #f2f2f2;
 }
-.todo.complete input[type=text] { color: #ccc; text-decoration: line-through; }
+.todo:nth-child(even) input[type=text] { color: #333; }
 
-.todo input[type=checkbox] {
-    width: 1%;
-    display: inline-block;
-    margin-left: 10px;
-}
+/* todo if checked as completed */
+.todo.complete input[type=text] { color: #ddd; text-decoration: line-through; }
+
+/* todo delete button */
 .todo .delete {
     float: right;
     background-color: #e74c3c;
     padding: 10px;
     display: inline-block;
-    width: 12%;
+    width: 40px;
     text-align: center;
     color: #fbe5e2;
     cursor: pointer;
+    overflow: hidden;
 }
 .todo .delete:hover, .todo .delete:active { background-color: #e53e2d; }
+
+/* todo checkbox */
+.todo .checker {
+    width: 20px;
+    height: 20px;
+    margin-bottom: -3px;
+    padding: 5px;
+    position: relative;
+    display: inline-block;
+}
+
+.todo .checker input {
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.todo .checker .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #eee;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 1;
+}
+.todo .checker:hover .checkmark { opacity: 0.8; }
+.todo .checker input:checked ~ .checkmark { background-color: #1e8449; }
+
+.todo .checker .checkmark:after {
+    position: absolute;
+    content: '';
+    display: none;
+    left: 6px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg) scale(0.9);
+    -ms-transform: rotate(45deg) scale(0.9);
+    transform: rotate(45deg) scale(0.9);
+}
+.todo .checker input:checked ~ .checkmark:after { display: block; }
 
 
 /* ====================================================== */
@@ -122,7 +180,4 @@ h1 { font-size: 150%; }
     .header { padding-top: 20px; }
     .header .username { display: block; margin-top: 20px; margin-bottom: 20px; }
     .header input[type=text] { display: block; margin-top: 0; margin-bottom: 0; }
-
-    .todo input[type=text] { width: 60%; }
-    .todo .delete { width: 25%; }
 }
