@@ -7,13 +7,13 @@
             <a href="#" class="btn"><i class="ion-md-log-out"></i> Logout</a>
         </div>
         <h1 class="username clearfix"><i class="ion-md-contact"></i> User Name</h1>
-        <input type="text" placeholder="write something todo here..." onkeydown="settodo();">
+        <input id="newtodobox" type="text" placeholder="write something todo here...">
     </div>
 </div>
 
-<div class="todos-container">
+<div class="todos-container" id="todos">
 
-    <div class="todo complete">
+    <!-- <div class="todo complete">
         <label class="checker">
             <input type="checkbox" checked>
             <span class="checkmark"></span>
@@ -29,8 +29,12 @@
         </label>
         <input type="text" placeholder="write todo..." value="Games">
         <a class="delete"><i class="ion-md-trash"></i></a>
-    </div>
+    </div> -->
 
 </div>
+
+<script src="/js/api.js"></script>
+<script src="/js/components/todo.js"></script>
+<script src="/js/app.js"></script>
 
 <% include partials/footer %>

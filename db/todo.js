@@ -17,6 +17,15 @@ const todoSchema = new mongoose.Schema({
     }
 });
 
+todoSchema.methods.toJSON = function () {
+    const todo = this;
+    return {
+        id: todo._id,
+        text: todo.text,
+        complete: todo.complete
+    }
+}
+
 const Todo = mongoose.model('Todo', todoSchema);
 
 module.exports = Todo;

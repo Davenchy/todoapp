@@ -19,7 +19,7 @@ module.exports = function (app, User, Todo) {
 
         var todo = new Todo({owner, text});
         todo.save().then((r) => {
-            res.send({r});
+            res.send(r.toJSON());
         }, (e) => {
             res.status(400).send({name: e.name, message: e.message});
         });
@@ -31,7 +31,7 @@ module.exports = function (app, User, Todo) {
         const id = req.params.id;
         Todo.findById(id).then((r) => {
             if (!r) return res.status(404).send({message: 'Not Found'});
-            res.send({r});
+            res.send(r.toJSON());
         }, (e) => {
             res.status(400).send({name: e.name, message: e.message});
         })
@@ -40,7 +40,7 @@ module.exports = function (app, User, Todo) {
     // list all
     app.get('/todoapi/list', (req, res) => {
         Todo.find().then((r) => {
-            res.send({r});
+            res.send(r);
         }, (e) => {
             res.status(400).send({name: e.name, message: e.message});
         })
@@ -53,7 +53,7 @@ module.exports = function (app, User, Todo) {
 
         Todo.findByIdAndUpdate(id, {$set: {text}}, {new: true}).then((r) => {
             if (!r) return res.status(404).send('Not Found');
-            res.send({r});
+            res.send(r.toJSON());
         }, (e) => {
             res.status(400).send({name: e.name, message: e.message});
         });
@@ -66,7 +66,7 @@ module.exports = function (app, User, Todo) {
 
         Todo.findByIdAndUpdate(id, {$set: {complete: true}}, {new: true}).then((r) => {
             if (!r) return res.status(404).send({message: "Not Found"});
-            res.send({r});
+            res.send(r.toJSON());
         }, (e) => {
             res.status(400).send({name: e.name, message: e.message});
         })
@@ -78,7 +78,7 @@ module.exports = function (app, User, Todo) {
 
         Todo.findByIdAndUpdate(id, {$set: {complete: false}}, {new: true}).then((r) => {
             if (!r) return res.status(404).send({message: "Not Found"});
-            res.send({r});
+            res.send(r.toJSON());
         }, (e) => {
             res.status(400).send({name: e.name, message: e.message});
         })
@@ -90,7 +90,7 @@ module.exports = function (app, User, Todo) {
 
         Todo.findByIdAndDelete(id).then((r) => {
             if (!r) return res.status(404).send({message: "Not Found"});
-            res.send({r});
+            res.send(r.toJSON());
         }, (e) => {
             res.status(400).send({name: e.name, message: e.message});
         })
