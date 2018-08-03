@@ -4,7 +4,8 @@
   "description": "simple todo full stack app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,9 @@
     "full",
     "stack"
   ],
+  "engines": {
+    "node": "8.11.2"
+  },
   "author": "Davenchy",
   "license": "MIT",
   "bugs": {
