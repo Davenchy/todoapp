@@ -39,6 +39,7 @@ module.exports = function (app, User, Todo) {
 
     // list all
     app.get('/todoapi/list', (req, res) => {
+        console.log('list all');
         Todo.find().then((r) => {
             res.send(r);
         }, (e) => {
