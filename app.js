@@ -16,12 +16,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 // force https in production
-if (app.get('env') == 'production') {
-    app.use(function (req, res, next) {
-        console.log('force https');
-        app.get('x-forwarded-proto') == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
-    });
-}
+// if (app.get('env') == 'production') {
+//     app.use(function (req, res, next) {
+//         console.log('force https');
+//         app.get('x-forwarded-proto') == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
+//     });
+// }
 
 // main routes
 require('./routes/main')(app, User, Todo);
