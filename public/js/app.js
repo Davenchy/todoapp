@@ -10,12 +10,11 @@ newtodobox.addEventListener('keydown', function (e) {
 });
 
 function createTodo(text) {
-    new API('/todoapi/create', 'POST')
-    .request({text}).then((data) => {
+    new API('/todos', 'POST')
+    .setStatus(200, (data) => {
         var todo = new Todo(JSON.parse(data));
         todo.renderToDOM(todos_dom);
-        // todos.push(todo);
-    });
+    }).json({text});
 }
 
 // function RenderAll() {
@@ -24,19 +23,13 @@ function createTodo(text) {
 // }
 
 function fetchServer() {
-    new API('/todoapi/list').request()
-    .then((data) => {
-
+    new API('/todos')
+    .setStatus(200, (data) => {
         data = JSON.parse(data);
-
-        console.log(data);
-
         data.forEach(t => new Todo(t).renderToDOM(todos_dom) );
-
         // data.forEach(i => todos.push(new Todo(i)) );
         // RenderAll();
-
-    }, (e) => console.error(e) );
+    }).send();
 }
 
 

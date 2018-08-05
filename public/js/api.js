@@ -1,34 +1,83 @@
+/*
+
+    create by Davenchy
+
+    simple lib to make http requests and auto handle them
+
+    - constructor(url : String, method: String);
+
+    - setHeader(key : String, value : String);      // set header
+
+    - setParam(key : String, value : String);     // set param to inject to url
+
+    - setStatus(statusCode : Integer, callback : Function);      // callback when response status code matches
+
+    - json(obj : Object, callback : Function);      // send json request
+
+    - send(body : String, callback : Function);      // send request
+
+
+    Note:
+        status callbacks returned with 1 arg (XMLHTTPRequest.responseText) and XMLHTTPRequest binded
+        request callback returned with with XMLHTTPRequest binded
+
+*/
+
 class API {
-    constructor(url, method) {
-        this.headers = {};
+    constructor(url, method, params) {
         this.url = url || '';
         this.method = method || 'GET';
-        this.xmlHttpRequest = new XMLHttpRequest();
+        this.params = params || {};
+        this.headers = {};
+        this.status = {};
+        this.xhr = null;
+
+        // fix bugs
+        if (!this.url.endsWith('/')) this.url += '/';
     }
 
-    setHeader(key, value) { this.headers[key] = value; console.log(this.headers); return this; }
+    setParam(key, value) { this.params[key] = value; return this; }
 
-    request(body = {}, json = true) {
+    setHeader(key, value) { this.headers[key] = value; return this; }
+
+    setStatus(code, cb) { this.status[code] = cb; return this; }
+
+    json(obj = {}, cb = () => {}) {
+        obj = JSON.stringify(obj);
+        this.setHeader('Content-Type', 'application/json');
+        this.send(obj, cb);
+    }
+
+    send(body = '', cb = () => {}) {
         var self = this;
-        this.xmlHttpRequest.open(this.method, this.url);
 
-        var headers = Object.keys(this.headers);
-        headers.forEach(header => self.xmlHttpRequest(header, self.headers[header]) );
+        // create new xml http request
+        this.xhr = new XMLHttpRequest();
 
-        if (json) {
-            self.xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
-            body = JSON.stringify(body);
+        // setup params
+        var params = "";
+        Object.keys(this.params).forEach(param => {
+            params += encodeURIComponent(param) + '=' + encodeURIComponent(self.params[param]) + '&';
+        });
+        if (params.length > 0) params.substring(0, params.length - 1);
+
+        // open xhr request
+        this.xhr.open(this.method, this.url + params);
+
+        // setup headers
+        Object.keys(this.headers).forEach(header => self.xhr.setRequestHeader(header, self.headers[header]) );
+
+        // setup handlers
+        this.xhr.onloadend = function () {
+            Object.keys(self.status).forEach(code => {
+                var c = self.status[self.xhr.status];
+                if (c != undefined) c.bind(self.xhr)(self.xhr.responseText);
+            });
+            cb.bind(self.xhr)();
         }
 
-        return new Promise((resolve, reject) => {
-
-            self.xmlHttpRequest.onloadend = function () {
-                if (self.xmlHttpRequest.status === 200) resolve(self.xmlHttpRequest.responseText, self.xmlHttpRequest);
-                else reject(self.xmlHttpRequest.status, self.xmlHttpRequest);
-            }
-
-            this.xmlHttpRequest.send(body);
-
-        });
+        // send request
+        this.xhr.send(body);
     }
+
 }

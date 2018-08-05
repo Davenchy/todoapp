@@ -26,6 +26,9 @@ body {
 }
 .float-right { float: right; }
 .center { text-align: center; }
+.hwhitespace { display: inline-block; padding: 20px; margin: 0 auto; }
+.hwhitespace-1 { display: inline-block; padding: 30px; margin: 0 auto; }
+.hwhitespace-2 { display: inline-block; padding: 40px; margin: 0 auto; }
 .clearfix { overflow: hidden; }
 .clearfix:after { clear: both; display: table; content: ''; }
 
@@ -221,6 +224,54 @@ a.light:hover, a.light:active { opacity: 1; }
     transform: rotate(45deg) scale(0.9);
 }
 .todo .checker input:checked ~ .checkmark:after { display: block; }
+
+/* ====================================================== */
+/* toasts */
+/* ====================================================== */
+
+.toast-container {
+    z-index: 10;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    max-width: 700px;
+    /* max-height: 1vh; */
+    height: auto;
+    margin: 0 auto;
+    background-color: transparent;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.toast-container .toast {
+    background-color: #ecf0f1;
+    padding: 10px 15px;
+    margin: 10px 5px;
+    font-size: 90%;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 2px solid #a8babf;
+    color: #222;
+    box-shadow: 1px 5px 10px #333;
+    position: relative;
+}
+
+.toast-container .toast .close {
+    position: absolute;
+    color: #e53e2d;
+    font-size: 150%;
+    font-weight: 800;
+    right: 7px; top: -5px;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    text-shadow: 0 0 1px #222;
+}
+
+/* colors */
+.toast-container .toast.info { background-color: #3498db; border-color: #175781; color: #f2f2f2; }
+.toast-container .toast.warn { background-color: #f39c12; border-color: #b87409; color: #f2f2f2; }
+.toast-container .toast.success { background-color: #2ecc71; border-color: #1e874b; color: #f2f2f2; }
+.toast-container .toast.danger { background-color: #e74c3c; border-color: #c72918; color: #f2f2f2; }
 
 
 /* ====================================================== */

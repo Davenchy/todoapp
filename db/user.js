@@ -72,7 +72,7 @@ userSchema.methods.checkPassword = function (password) {
 // generate new token
 userSchema.methods.genToken = function () {
     var user = this;
-    var token = jwt.sign({id:user._id, exp: Date.now() + (60 * 60 * 1000)}, config.secret);
+    var token = jwt.sign({id:user._id}, config.secret, { expiresIn: 60 * 60 });
     return token;
 }
 
@@ -82,7 +82,7 @@ userSchema.statics.findByToken = function (token) {
 
     return new Promise((resolve, reject) => {
 
-        try { var payload = jwt.decode(token) }
+        try { var payload = jwt.verify(token, config.secret) }
         catch (e) { reject('TokenInvalid') }
 
         user.findOne({
@@ -94,35 +94,6 @@ userSchema.statics.findByToken = function (token) {
         }, (e) => reject(e) )
     });
 }
-
-// // authentication middleware
-// userSchema.statics.authenticate = function (req, res, next) {
-//     var user = this;
-
-//     var headerToken = req.header('x-auth');
-
-//     try {
-//         payload = jwt.decode(headerToken);
-//     } catch (e) {
-//         return res.status(401).send({ name: "TokenInvalid" })
-//     }
-
-//     console.log(Date.now(), payload.exp);
-
-//     if (Date.now() >= payload.exp) return res.status(401).send({name: "TokenExpired"});
-
-//     console.log(user);
-
-//     user.findById(payload.id).then((r) => {
-//         if (!r) return res.status(401).send({name: "UserNotFound"});
-//         req.user = r;
-//         req.token = headerToken;
-//         next();
-//     }, (e) => {
-//         res.status(401).send({name: 'AuthCheckFailed'});
-//     })
-// }
-
 
 const User = mongoose.model('User', userSchema);
 

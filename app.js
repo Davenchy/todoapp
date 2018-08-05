@@ -1,19 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const app = express();
 
 const config = require('./config');
 
 // database
-const {mongoose} = require('./db/mongoose');
-const User = require('./db/user');
-const Todo = require('./db/todo');
+require('./db/mongoose');
 
+// use morgan for logging
+app.use(morgan('tiny'));
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'ejs');
+
+
+// frontend routes
+app.use(require('./routes/frontend'));
+// todo RESTful api
+app.use('/todos', require('./routes/todoapi'));
+// user RESTful api
+app.use('/users', require('./routes/userapi'));
+
 
 // force https in production
 // if (app.get('env') == 'production') {
@@ -22,13 +32,6 @@ app.set('view engine', 'ejs');
 //         app.get('x-forwarded-proto') == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
 //     });
 // }
-
-// main routes
-require('./routes/main')(app, User, Todo);
-// todo api
-require('./routes/todoapi')(app, User, Todo);
-// user api
-require('./routes/userapi')(app, User, Todo);
 
 app.listen(config.port, () => {
     console.log(`server is running on port ${config.port}`);

@@ -1,3 +1,29 @@
+/*
+    created by Davenchy
+
+    Todo Model
+
+    - Constructor(data : Object);
+        data :
+                - complete : Boolean;   is the todo completed
+                - text : String;        the content of the todo
+
+    - renderTo(selector);        append the todo DOM to document element using selector
+
+    - renderToDOM();             append the todo DOM to other DOM
+
+    - delete();                  delete the todo DOM from the document
+
+    - getter dom (DOM)          :   return the todo DOM
+    - getter id (String)        :   return todo id
+    - getter complete (Boolean) :   return state if todo is completed or not
+    - getter text (String)      :   return todo content
+
+    - setter complete (Boolean) :   set if todo is competed or not
+    - setter text (String)      :   set todo content
+
+*/
+
 class Todo {
     constructor(data) {
         this.__BUILD_TODO__(data);
@@ -10,36 +36,32 @@ class Todo {
     get text() { return this.todo.querySelector('input[type=text]').value; }
 
     set complete(v) {
-
-        var url = `/todoapi/${v?'complete':'notcomplete'}/${this.id}`;
         var todo = this;
+        var url = `/todos/${this.id}/${v?'complete':'notcomplete'}`;
 
-        new API(url, 'PUT').request().then((data) => {
+        new API(url, 'PATCH')
+        .setStatus(200, (data) => {
             v = JSON.parse(data).complete;
             this.todo.querySelector('.checker input').checked = v;
             if (v && !this.todo.classList.contains('complete')) this.todo.classList.add('complete');
             else if (!v && this.todo.classList.contains('complete')) this.todo.classList.remove('complete');
-        }, (e) => console.error(e))
-
+        }).send();
     }
     set text(v) {
-        var url = `/todoapi/edit/${this.id}`;
+        var url = `/todos/${this.id}`;
         var todo = this;
 
-        new API(url, 'PUT').request({text: v}).then((data) => {
+        new API(url, 'PATCH').setStatus(200, (data) => {
             v = JSON.parse(data).text;
             this.todo.querySelector('input[type=text]').value = v;
-            console.log(data);
-        }, (e) => console.error(e));
+        }).json({text: v});
     }
 
     delete() {
-        var url = `/todoapi/delete/${this.id}`;
+        var url = `/todos/${this.id}`;
         var todo = this;
 
-        new API(url, 'DELETE').request().then((data) => {
-            todo.dom.remove();
-        }, (e) => console.error(e))
+        new API(url, 'DELETE').setStatus(200, (data) => todo.dom.remove() ).send();
     }
 
     renderTo(selector) { this.renderToDOM(document.querySelector(selector)); }
