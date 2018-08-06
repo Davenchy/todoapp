@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader(
         'Access-Control-Allow-Headers',
-        'Content-type, x-auth, Origin, Accept, Authorization'
+        'Content-type, x-auth, Origin, Accept, Authorization, X-Requested-With'
     );
 
     if (req.method === 'OPTIONS') {
