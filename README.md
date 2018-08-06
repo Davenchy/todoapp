@@ -22,6 +22,6 @@ simple todo app
 | ---- | ------ | --- | ----------- |
 | Register | POST | /users/register | register new user |
 | Login | POST | /users/login | login user and get access token |
-| Logout | GET | /users/logout | logout user [Token Is Needed] |
-| Update | PATCH | /users | update user data [Token Is Needed] |
-| Delete | DELETE | /users | delete user [Token Is Needed] |
+| Logout | GET | /users/logout | logout user [Token Is Needed] [Not Tested] |
+| Update | PATCH | /users | update user data [Token Is Needed] [Not Working] |
+| Delete | DELETE | /users | delete user [Token Is Needed] [Not Working] |
