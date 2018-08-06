@@ -10,6 +10,7 @@ simple todo app
 | Create | POST | /todos | create new todo |
 | Read | GET | /todos/:id | read todo by id |
 | List | GET | /todos/ | list all todos |
+| Edit | PATCH | /todos/:id | update todo content by id |
 | Set As Complete | PATCH | /todos/:id/complete | set todo as completed by id |
 | Set As Not Complete | PATCH | /todos/:id/notcomplete | set todo as not completed by id |
 | Delete | DELETE | /todos/:id | delete todo by id |
@@ -21,6 +22,6 @@ simple todo app
 | ---- | ------ | --- | ----------- |
 | Register | POST | /users/register | register new user |
 | Login | POST | /users/login | login user and get access token |
-| Logout | GET | /users/logout | logout user |
+| Logout | GET | /users/logout | logout user [Token Is Needed] |
 | Update | PATCH | /users | update user data [Token Is Needed] |
 | Delete | DELETE | /users | delete user [Token Is Needed] |
