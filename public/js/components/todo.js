@@ -36,6 +36,7 @@ class Todo {
     get text() { return this.todo.querySelector('input[type=text]').value; }
 
     set complete(v) {
+        console.log('set complete property to', v)
         var todo = this;
         var url = `/todos/${this.id}/${v?'complete':'notcomplete'}`;
 
@@ -45,7 +46,7 @@ class Todo {
             this.todo.querySelector('.checker input').checked = v;
             if (v && !this.todo.classList.contains('complete')) this.todo.classList.add('complete');
             else if (!v && this.todo.classList.contains('complete')) this.todo.classList.remove('complete');
-        }).send();
+        }).send((x) => {console.log(x)});
     }
     set text(v) {
         var url = `/todos/${this.id}`;
@@ -61,7 +62,7 @@ class Todo {
         var url = `/todos/${this.id}`;
         var todo = this;
 
-        new API(url, 'DELETE').setStatus(200, (data) => todo.dom.remove() ).send();
+        new API(url, 'DELETE').setStatus(200, (data) => todo.dom.remove() ).send((x) => console.log(x));
     }
 
     renderTo(selector) { this.renderToDOM(document.querySelector(selector)); }

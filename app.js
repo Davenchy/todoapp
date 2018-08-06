@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 const config = require('./config');
@@ -9,8 +10,9 @@ const config = require('./config');
 require('./db/mongoose');
 
 // use morgan for logging
-app.use(morgan('tiny'));
+app.use(morgan('dev'));
 
+app.use(cookieParser());
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

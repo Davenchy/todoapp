@@ -69,11 +69,9 @@ class API {
 
         // setup handlers
         this.xhr.onloadend = function () {
-            Object.keys(self.status).forEach(code => {
-                var c = self.status[self.xhr.status];
-                if (c != undefined) c.bind(self.xhr)(self.xhr.responseText);
-            });
-            cb.bind(self.xhr)();
+            var c = self.status[self.xhr.status];
+            if (c != undefined) c.bind(self.xhr)(self.xhr.responseText, self.xhr);
+            cb(self.xhr);
         }
 
         // send request

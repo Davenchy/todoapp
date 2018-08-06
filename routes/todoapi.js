@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
 const Todo = require('../db/todo');
+const authenticate = require('../db/authenticate');
 
 
 // todo api routes:
@@ -14,13 +15,14 @@ const Todo = require('../db/todo');
 // delete
 
 // create new todo
-router.post('/', (req, res) => {
+router.post('/',authenticate(true), (req, res) => {
+
     const text = req.body.text;
-    const owner = new mongoose.Types.ObjectId();
+    const owner = req.auth.user._id;
 
     var todo = new Todo({owner, text});
     todo.save().then((r) => {
-        res.send(r.toJSON());
+        res.send(r);
     }, (e) => {
         res.status(400).send({name: e.name, message: e.message});
     });
@@ -28,9 +30,8 @@ router.post('/', (req, res) => {
 });
 
 // list all
-router.get('/', (req, res) => {
-    console.log('list data')
-    Todo.find().then((r) => {
+router.get('/',authenticate(true), (req, res) => {
+    Todo.find({'owner': req.auth.user._id}).then((r) => {
         res.send(r);
     }, (e) => {
         res.status(400).send({name: e.name, message: e.message});
@@ -38,11 +39,11 @@ router.get('/', (req, res) => {
 });
 
 // read all
-router.get('/:id', (req, res) => {
+router.get('/:id',authenticate(true), (req, res) => {
     const id = req.params.id;
-    Todo.findById(id).then((r) => {
+    Todo.findOne({'_id': id, 'owner': req.auth.user._id}).then((r) => {
         if (!r) return res.status(404).send({message: 'Not Found'});
-        res.send(r.toJSON());
+        res.send(r);
     }, (e) => {
         res.status(400).send({name: e.name, message: e.message});
     })
@@ -50,50 +51,61 @@ router.get('/:id', (req, res) => {
 
 
 // edit todo text
-router.patch('/:id', (req, res) => {
+router.patch('/:id', authenticate(true), (req, res) => {
     var id = req.params.id;
     var text = req.body.text;
 
-    Todo.findByIdAndUpdate(id, {$set: {text}}, {new: true}).then((r) => {
-        if (!r) return res.status(404).send('Not Found');
-        res.send(r.toJSON());
-    }, (e) => {
-        res.status(400).send({name: e.name, message: e.message});
-    });
+    Todo.updateOne({'_id': id, 'owner': req.auth.user._id}, {$set: {text}}, {new: true}).then((r) => {
+        if (!r) return res.status(404).send({message: "Not Found"});
+        Todo.findById(id).then((r) => {
+            if (!r) return res.status(404).send({message: "Not Found"});
+            res.send(r);
+        }, (e) => res.status(400).send({name: e.name, message: e.message}))
+
+    }, (e) => res.status(400).send({name: e.name, message: e.message}))
 });
 
 
 // set todo as completed
-router.patch('/:id/complete', (req, res) => {
+router.patch('/:id/complete', authenticate(true), (req, res) => {
     var id = req.params.id;
 
-    Todo.findByIdAndUpdate(id, {$set: {complete: true}}, {new: true}).then((r) => {
+    console.log('complete')
+
+    Todo.updateOne({'_id': id, 'owner': req.auth.user._id}, {$set: {complete: true}}, {new: true}).then((r) => {
         if (!r) return res.status(404).send({message: "Not Found"});
-        res.send(r.toJSON());
-    }, (e) => {
-        res.status(400).send({name: e.name, message: e.message});
-    })
+        Todo.findById(id).then((r) => {
+            if (!r) return res.status(404).send({message: "Not Found"});
+            res.send(r);
+        }, (e) => res.status(400).send({name: e.name, message: e.message}))
+
+    }, (e) => res.status(400).send({name: e.name, message: e.message}))
 });
 
 // set todo as not completed
-router.patch('/:id/notcomplete', (req, res) => {
+router.patch('/:id/notcomplete', authenticate(true), (req, res) => {
     var id = req.params.id;
 
-    Todo.findByIdAndUpdate(id, {$set: {complete: false}}, {new: true}).then((r) => {
+    console.log('not complete')
+
+    Todo.updateOne({'_id': id, 'owner': req.auth.user._id}, {$set: {complete: false}}, {new: true}).then((r) => {
         if (!r) return res.status(404).send({message: "Not Found"});
-        res.send(r.toJSON());
-    }, (e) => {
-        res.status(400).send({name: e.name, message: e.message});
-    })
+        Todo.findById(id).then((r) => {
+            if (!r) return res.status(404).send({message: "Not Found"});
+            res.send(r);
+        }, (e) => res.status(400).send({name: e.name, message: e.message}))
+
+    }, (e) => res.status(400).send({name: e.name, message: e.message}))
+
 });
 
 // delete todo
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authenticate(true), (req, res) => {
     var id = req.params.id;
 
-    Todo.findByIdAndDelete(id).then((r) => {
+    Todo.deleteOne({'_id': id, 'owner': req.auth.user._id}).then((r) => {
         if (!r) return res.status(404).send({message: "Not Found"});
-        res.send(r.toJSON());
+        res.send(r);
     }, (e) => {
         res.status(400).send({name: e.name, message: e.message});
     })

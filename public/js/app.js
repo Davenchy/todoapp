@@ -1,5 +1,6 @@
 var newtodobox = document.querySelector('#newtodobox');
 var todos_dom = document.querySelector(".todos-container");
+var user = new Object();
 // var todos = [];
 
 newtodobox.addEventListener('keydown', function (e) {
@@ -17,6 +18,8 @@ function createTodo(text) {
     }).json({text});
 }
 
+function logout() { document.cookie = 'x-auth=;'; location.href='/'; }
+
 // function RenderAll() {
 //     todos_dom.innerHTML = "";
 //     todos.forEach(todo => todo.renderToDOM(todos_dom));
@@ -33,4 +36,20 @@ function fetchServer() {
 }
 
 
+function fetchUserData() {
+    new API('/users')
+    .setStatus(200, (data) => {
+        user = JSON.parse(data);
+        new Toast({body: `Welcome ${user.name}`, timeout: 2000, type: 'success'}).show();
+        updateUI();
+    })
+    .send();
+}
+
+function updateUI() {
+    document.querySelector('.username p').innerText = user.name;
+}
+
+
+fetchUserData();
 fetchServer();

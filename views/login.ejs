@@ -36,16 +36,19 @@
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-        new API('/userapi/login', "POST")
-        .request({email: email.value, password: password.value})
-        .then((x) => {
-            var data = JSON.parse(x.responseText);
+
+        new API('/users/login', "POST")
+        .setStatus(200, (data) => {
+            data = JSON.parse(data);
             new Toast({body: `Welcome ${data.name}`, timeout: 5000, type: 'success'}).show();
             location.href = "/";
-        }, (e) => {
+        })
+        .setStatus(401, (data) => {
             new Toast({body: "Email or Password was wrong!", timeout: 2000, type: 'danger'}).show();
-        });
+        })
+        .json({email: email.value, password: password.value});
     })
+
 </script>
 
 <% include partials/footer %>

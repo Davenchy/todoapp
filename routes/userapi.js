@@ -12,6 +12,12 @@ const authenticate = require('../db/authenticate');
 // update
 // delete
 
+// get user data
+router.get('/', authenticate(false), (req, res) => {
+    if (req.auth.access) res.send(req.auth.user);
+    else res.status(401).send();
+});
+
 // register new user
 router.post('/register', (req, res) => {
     var name = req.body.name;
@@ -33,12 +39,14 @@ router.post('/login', (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
 
+    console.log(email, password);
+
     User.findOne({email}).then((r) => {
         if (!r) return res.status(401).send({name: 'UserNotFound'});
 
         if (r.checkPassword(password)) {
             var token = r.genToken();
-            res.header('x-auth', token).send(r);
+            res.cookie('x-auth', token).header('x-auth', token).send(r);
         } else {
             res.status(401).send({name: "InvalidCredentials"});
         }

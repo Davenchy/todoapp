@@ -6,7 +6,8 @@ const authenticate = require('../db/authenticate');
 //     else {res.render('login')}
 // });
 
-router.get('/', (req, res) => {
+router.get('/', authenticate(false), (req, res) => {
+    if (!req.auth.access) return res.render('login');
     res.render('home')
 });
 
