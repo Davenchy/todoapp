@@ -1,0 +1,51 @@
+<% include partials/header %>
+
+    <div class="header fullscreen">
+        <div class="container">
+            <h1 class="logo">Checking Page</h1>
+            <!-- <a href="javascript:auth()" class="btn">Authenticate</a>
+            <a href="javascript:auth()" class="btn">Clear Cookies</a>
+            <a href="javascript:create()" class="btn">Create New Todo</a>
+            <a href="javascript:list()" class="btn">List All</a> -->
+        </div>
+    </div>
+
+    <script> src="/js/api.js"</script>
+
+    <script>
+
+        const uri = 'http://todoapp1222.herokuapp.com';
+
+        function login(email, password) {
+            // new API(uri + '/login', "POST")
+            // .setStatus(200, (data) => {
+            //     console.log(data);
+            // })
+            // .json({email, password});
+        }
+
+        function logout() {}
+
+        function createTodo(text) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onloadend = function () {
+                console.log(xhr.status, xhr.statusText);
+                console.log(xhr.responseText);
+            }
+
+            xhr.open('POST', uri + '/todos');
+
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.send(JSON.stringify({text}));
+        }
+
+        function listTodos() {
+
+        }
+
+    </script>
+
+
+<% include partials/footer %>

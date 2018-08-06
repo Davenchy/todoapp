@@ -39,8 +39,6 @@ router.post('/login', (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
 
-    console.log(email, password);
-
     User.findOne({email}).then((r) => {
         if (!r) return res.status(401).send({name: 'UserNotFound'});
 
@@ -54,9 +52,13 @@ router.post('/login', (req, res) => {
     }, (e) => res.status(401).send({name:e.name, message: e.message}))
 });
 
-router.post('/check', authenticate(), (req, res) => res.send({canAccess: true}) );
+// check authentication
+router.post('/check', authenticate(true), (req, res) => res.send({canAccess: true}) );
 
-// logout user [under development]
+// logout user
+router.post('/logout',authenticate(true), (req, res) => {
+    res.cookie('x-auth', '').send();
+});
 
 // update user data
 
