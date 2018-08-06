@@ -20,8 +20,9 @@
 
 
         function login(email, password) {
-            new API(uri + '/users/login', "POST")
-            .setStatus(200, (data, x) => {
+            var api = new API(uri + '/users/login', "POST");
+            // api.xhr.withCredentials = true;
+            api.setStatus(200, (data, x) => {
                 data = JSON.parse(data);
                 console.log(data);
                 console.log(x.getAllResponseHeaders())

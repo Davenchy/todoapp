@@ -6,6 +6,8 @@
 
     - constructor(url : String, method: String);
 
+    - reset()       // create new XMLHttpRequest Object
+
     - setHeader(key : String, value : String);      // set header
 
     - setParam(key : String, value : String);     // set param to inject to url
@@ -34,6 +36,9 @@ class API {
 
         // fix bugs
         if (!this.url.endsWith('/')) this.url += '/';
+
+        // create new xml http request
+        this.xhr = new XMLHttpRequest();
     }
 
     setParam(key, value) { this.params[key] = value; return this; }
@@ -41,6 +46,8 @@ class API {
     setHeader(key, value) { this.headers[key] = value; return this; }
 
     setStatus(code, cb) { this.status[code] = cb; return this; }
+
+    reset() { this.xhr = new XMLHttpRequest(); return this; }
 
     json(obj = {}, cb = () => {}) {
         obj = JSON.stringify(obj);
@@ -51,8 +58,6 @@ class API {
     send(body = '', cb = () => {}) {
         var self = this;
 
-        // create new xml http request
-        this.xhr = new XMLHttpRequest();
 
         // setup params
         var params = "";
