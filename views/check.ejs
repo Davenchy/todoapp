@@ -10,35 +10,36 @@
         </div>
     </div>
 
-    <script> src="/js/api.js"</script>
+    <script src="/js/api.js"></script>
 
     <script>
 
         const uri = 'http://todoapp1222.herokuapp.com';
+        var token = "";
+
+
 
         function login(email, password) {
-            // new API(uri + '/login', "POST")
-            // .setStatus(200, (data) => {
-            //     console.log(data);
-            // })
-            // .json({email, password});
+            new API(uri + '/users/login', "POST")
+            .setStatus(200, (data, x) => {
+                data = JSON.parse(data);
+                console.log(data);
+                console.log(x.getAllResponseHeaders())
+                token = x.getResponseHeader('X-Auth');
+            })
+            .setStatus(401, (data) => {
+                data = JSON.parse(data);
+                console.error(data);
+            })
+            .json({email, password});
         }
 
-        function logout() {}
+        function logout() { token = ''; }
 
         function createTodo(text) {
-            var xhr = new XMLHttpRequest();
-
-            xhr.onloadend = function () {
-                console.log(xhr.status, xhr.statusText);
-                console.log(xhr.responseText);
-            }
-
-            xhr.open('POST', uri + '/todos');
-
-            xhr.setRequestHeader('Content-Type', 'application/json');
-
-            xhr.send(JSON.stringify({text}));
+            new API(uri + '/todos')
+            .setStatus(200, (data) => console.log(data) )
+            .json({text});
         }
 
         function listTodos() {
