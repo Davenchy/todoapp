@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const config = require('./config');
 const app = express();
 
-const config = require('./config');
 
 // database
 require('./db/mongoose');
@@ -17,20 +17,6 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'ejs');
-
-// force https in production
-if (app.get('env') == 'production') {
-    app.use(function (req, res, next) {
-        console.log('Data:', req.baseUrl);
-        if (req.protocol !== 'https') {
-            console.log('force https');
-            res.redirect('https://' + req.hostname + req.url);
-            console.log("New URL:", 'https://' + req.hostname + req.url);
-            return;
-        }
-        next();
-    });
-}
 
 // frontend routes
 app.use(require('./routes/frontend'));
