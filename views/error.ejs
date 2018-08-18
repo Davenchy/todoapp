@@ -8,12 +8,14 @@
         <h1 class="logo">Sorry!</h1>
 
         <h2 class="center" style="color: #e74c3c;"><%= message %></h2>
+        <% if (extra) { %>
+            <br>
+            <h3 class="center" style="color: #e74c3c;"><%= extra %></h3>
+        <% } %>
 
         <div class="hwhitespace"></div>
 
         <a href="/" class="btn center" style="display: block;"><i class="ion-ios-home"></i> Home Page</a>
-
-
 
     </div>
 

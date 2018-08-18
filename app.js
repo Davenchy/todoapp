@@ -34,10 +34,9 @@ app.use((req, res, next) => {
 app.use('/todos', require('./routes/todoapi'));
 // user RESTful api with cors support
 app.use('/users', require('./routes/userapi'));
-
-// check route
-app.get('/checker', (req, res) => {
-    res.render('check');
+// 404 ERROR
+app.get('*', function (req, res) {
+    res.render('error', {message: "404 Page Not Found!", extra: req.originalUrl});
 });
 
 app.listen(config.port, () => {
