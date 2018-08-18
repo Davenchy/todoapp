@@ -18,6 +18,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'ejs');
 
+// force https in production
+if (app.get('env') == 'production') {
+    app.use(function (req, res, next) {
+        console.log('force https');
+        app.get('x-forwarded-proto') == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
+    });
+}
+
 // frontend routes
 app.use(require('./routes/frontend'));
 
@@ -39,15 +47,6 @@ app.use('/users', require('./routes/userapi'));
 app.get('/checker', (req, res) => {
     res.render('check');
 });
-
-
-// force https in production
-if (app.get('env') == 'production') {
-    app.use(function (req, res, next) {
-        console.log('force https');
-        app.get('x-forwarded-proto') == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
-    });
-}
 
 app.listen(config.port, () => {
     console.log(`server is running on port ${config.port}`);
