@@ -21,7 +21,6 @@
 
         function login(email, password) {
             var api = new API(uri + '/users/login', "POST");
-            api.xhr.withCredentials = true;
             api.setStatus(200, (data, x) => {
                 data = JSON.parse(data);
                 console.log(data);
