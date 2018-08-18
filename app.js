@@ -25,6 +25,7 @@ if (app.get('env') == 'production') {
             console.log('force https');
             res.redirect('https://' + req.hostname + req.url);
             console.log("New URL:", 'https://' + req.hostname + req.url);
+            return;
         }
         next();
     });
