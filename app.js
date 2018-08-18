@@ -21,7 +21,8 @@ app.set('view engine', 'ejs');
 // force https in production
 if (app.get('env') == 'production') {
     app.use(function (req, res, next) {
-        if (req.protocol != 'https') {
+        console.log('Protocol:', req.protocol);
+        if (req.protocol != 'https://') {
             console.log('force https');
             res.redirect('https://' + req.hostname + req.url);
             console.log("New URL:", 'https://' + req.hostname + req.url);
