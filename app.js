@@ -42,12 +42,12 @@ app.get('/checker', (req, res) => {
 
 
 // force https in production
-// if (app.get('env') == 'production') {
-//     app.use(function (req, res, next) {
-//         console.log('force https');
-//         app.get('x-forwarded-proto') == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
-//     });
-// }
+if (app.get('env') == 'production') {
+    app.use(function (req, res, next) {
+        console.log('force https');
+        app.get('x-forwarded-proto') == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
+    });
+}
 
 app.listen(config.port, () => {
     console.log(`server is running on port ${config.port}`);
